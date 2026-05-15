@@ -21,7 +21,7 @@ class GridWorld(gym.Env):
         self.observation_space = gym.spaces.Box(0, size-1, shape=(2,), dtype=int)
 
         # define what actions are available (4 directions: up, down, left, right)
-        self.action_sace = gym.spaces.Discrete(4)
+        self.action_space = gym.spaces.Discrete(4)
 
         # map action numbers to actual movements on the grid
         # [row, col]
@@ -32,14 +32,17 @@ class GridWorld(gym.Env):
             3: np.array([1, 0]), # down
         }
 
-    def _get_obs(self) -> dict:
+    def _get_obs(self) -> np.array:
         """
             convert states to available observations
 
             Returns:
-                dict: Observation with agent position
+                array: Observation with agent position
         """
         return self._agent_location
+    
+    def _get_info(self):
+        return {}
 
     def reset(self, seed: Optional[int] = None, options: Optional[dict] = None):
         """
@@ -61,7 +64,8 @@ class GridWorld(gym.Env):
             self._agent_location = self.np_random.integers(0, self.size, size=2, dtype=int)
             if not self._is_terminal(self._agent_location):
                 break
-            return self._get_obs(), self._get_info()
+        
+        return self._get_obs(), self._get_info()
 
     def _is_terminal(self, location):
         return any(np.array_equal(location, t) for t in self._terminal_states)
