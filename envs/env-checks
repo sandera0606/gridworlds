@@ -1,0 +1,16 @@
+from gymnasium.utils.env_checker import check_env
+from gridworld_v0 import GridWorld 
+from windy_gridworld import WindyGridWorld
+from cliff_v0 import Cliff
+
+grid_env = GridWorld()
+check_env(grid_env)
+print("GridWorld ✓")
+
+windy_env = WindyGridWorld()
+check_env(windy_env)
+print("WindyGridWorld ✓")
+
+cliff_env = Cliff()
+check_env(cliff_env)
+print("CliffWorld ✓")
